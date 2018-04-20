@@ -3,7 +3,7 @@
 #### Wymagania:
 
 - PHP 7.1
-- MongoDB
+- MYSQL
 
 
 #### Instalacja:
