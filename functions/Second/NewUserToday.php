@@ -7,13 +7,15 @@
 		function start($db,$ts,$config,$ft,$cache)
 		{
 			$clients = array();
+			$all = array();
 			foreach($cache['clientList'] as $clientList)
 			{
 				if($clientList['client_type'] == 0)
 				{
 					if(date('d-m-Y') == date('d-m-Y',$clientList['client_created']))
 					{
-						$clients[] = $clientList;
+						$all[$clientList['client_database_id']] = $clientList;
+						$clients[] = $clientList['client_database_id'];
 					}
 				}
 			}
@@ -27,15 +29,16 @@
 				if(date('d-m-Y') == date('d-m-Y',$find['time']))
 				{
 					$edit .= '[*][url=client://0/'.$find['client_unique_identifier'].']'.$find['client_nickname'].'[/url]\n';
-					$last[] = $find;
+					$last[] = $find['dbid'];
 				}
 			}
 
-			if(@array_diff($clients,$last) != NULL)
+			$add = array_diff($clients,$last);
+			if($add != NULL)
 			{
-				foreach(array_diff($clients,$last) as $add)
+				foreach($add as $add)
 				{
-					$db->prepare("INSERT INTO newuserToday(dbid,client_nickname,client_unique_identifier,time) VALUES (:dbid,:client_nickname,:client_unique_identifier,:time)")->execute(array(':dbid' => $add['client_database_id'],':client_unique_identifier' => $add['client_unique_identifier'],':client_nickname' => $add['client_nickname'],':time' => time()));
+					$db->prepare("INSERT INTO newuserToday(dbid,client_nickname,client_unique_identifier,time) VALUES (:dbid,:client_nickname,:client_unique_identifier,:time)")->execute(array(':dbid' => $all[$add]['client_database_id'],':client_unique_identifier' => $all[$add]['client_unique_identifier'],':client_nickname' => $all[$add]['client_nickname'],':time' => time()));
 				}
 			}
 			$edit .= '[/list]'.$cache['footer'];
