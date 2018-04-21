@@ -11,19 +11,22 @@
 				{
 					$edit = self::replace($config['functions']['TopGenerator']['functions'][$name]['channel_description'],$config['functions']['TopGenerator']['functions'][$name]['limit']);
 					$i=1;
-					$top = $db->prepare("SELECT * FROM tops ORDER BY :name DESC");
-					$top->execute(array(':name' => $name));
+					$top = $db->prepare("SELECT * FROM `tops` ORDER BY ".$name." DESC");
+					$top->execute();
 					foreach($top->fetchAll(PDO::FETCH_ASSOC) as $top)
 					{
-						if($name == 'clientConnections')
+						if($top[$name] > 0)
 						{
-							$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.$top['client_nickname'].'[/url] ( '.$top[$name].' połączeń ) \n';
+							if($name == 'clientConnections')
+							{
+								$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.$top['client_nickname'].'[/url] ( '.$top[$name].' połączeń ) \n';
+							}
+							else
+							{
+								$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.$top['client_nickname'].'[/url] ( '.$ft->secToHR($top[$name]).' ) \n';
+							}
+							$i++;
 						}
-						else
-						{
-							$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.$top['client_nickname'].'[/url] ( '.$ft->secToHR($top[$name]).' ) \n';
-						}
-						$i++;
 					}
 					$edit .= '[/size]'.$cache['footer'];
 					$ts->channelEdit($function['channel_id'],array('channel_description' => $edit));
