@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ $1 == 'stop' ]]; then
+		echo -e '';
+        screen -S gbot[1] -X quit
+        screen -S gbot[2] -X quit
+        screen -S gbot[3] -X quit
+		echo -e "[>>] GBot zostal wylaczony [<<]"
+elif [[ $1 == 'start' ]]; then
+		echo -e '';
+        screen -dmS gbot[1] php core.php -i 1
+        screen -dmS gbot[2] php core.php -i 2
+        screen -dmS gbot[3] php core.php -i 3
+		echo -e "[>>] GBot zostal uruchomiony [<<]"
+else
+	echo -e '';
+	echo -e "[>>] Uzycie: ./run.sh {start/stop} [<<]"
+	echo -e "[>>] start - uruchomienie bot od panelu [<<]"
+	echo -e "[>>] stop - wylaczenie bot od panelu [<<]"
+	echo -e '';
+ fi
