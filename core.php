@@ -51,11 +51,15 @@
 					$ft->add_log($config[$instance['i']]['connection']['bot_name'],'Start','Bot zostal pomyslnie uruchomiony');
 				}
 
-				foreach($ts->getElement('data',$ts->clientList('-uid -times -groups -info -voice')) as $clientList)
+				if(isset($config[$instance['i']]['functions']['connectMessage']))
 				{
-					if($clientList['client_type'] == 0)
+					$cache['firstClient'] = array();
+					foreach($ts->getElement('data',$ts->clientList('-uid -times -groups -info -voice')) as $clientList)
 					{
-						$cache['firstClient'][] = $clientList['clid'];
+						if($clientList['client_type'] == 0)
+						{
+							$cache['firstClient'][] = $clientList['clid'];
+						}
 					}
 				}
 
