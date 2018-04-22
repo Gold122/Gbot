@@ -46,7 +46,7 @@
 						{
 							$db->prepare("INSERT INTO tops(client_database_id,client_unique_identifier,client_nickname,clientConnections,clientTime,clientTimeSpent,clientAFK) VALUES (:client_database_id,:client_unique_identifier,:client_nickname,:clientConnections,:clientTime,:clientTimeSpent,:clientAFK) ON DUPLICATE KEY UPDATE client_nickname = :client_nickname,clientConnections = :clientConnections,clientTime = :clientTime,clientTimeSpent = :clientTimeSpent,clientAFK = :clientAFK")->execute(array(
 										':client_database_id' => $clientList['client_database_id'],
-										':client_nickname' => $clientList['client_nickname'],
+										':client_nickname' => htmlentities($clientList['client_nickname']),
 										':client_unique_identifier' => $clientList['client_unique_identifier'],
 										':clientConnections' => $clientInfo['client_totalconnections'],
 										':clientTime' => $time,
@@ -58,7 +58,7 @@
 						{
 							$db->prepare("INSERT INTO tops(client_database_id,client_unique_identifier,client_nickname,clientConnections,clientTime,clientTimeSpent,clientAFK) VALUES (:client_database_id,:client_unique_identifier,:client_nickname,:clientConnections,:clientTime,:clientTimeSpent,:clientAFK) ON DUPLICATE KEY UPDATE client_nickname = :client_nickname,clientConnections = :clientConnections,clientTime = :clientTime,clientTimeSpent = :clientTimeSpent,clientAFK = :clientAFK")->execute(array(
 										':client_database_id' => $clientList['client_database_id'],
-										':client_nickname' => $clientList['client_nickname'],
+										':client_nickname' => htmlentities($clientList['client_nickname']),
 										':client_unique_identifier' => $clientList['client_unique_identifier'],
 										':clientConnections' => $clientInfo['client_totalconnections'],
 										':clientTime' => $time,

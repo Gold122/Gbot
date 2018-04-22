@@ -11,7 +11,7 @@
 				{
 					$edit = self::replace($config['functions']['TopGenerator']['functions'][$name]['channel_description'],$config['functions']['TopGenerator']['functions'][$name]['limit']);
 					$i=1;
-					$top = $db->prepare("SELECT * FROM `tops` ORDER BY ".$name." DESC");
+					$top = $db->prepare("SELECT * FROM `tops` ORDER BY ".$name." DESC LIMIT ".$config['functions']['TopGenerator']['functions'][$name]['limit']);
 					$top->execute();
 					foreach($top->fetchAll(PDO::FETCH_ASSOC) as $top)
 					{
@@ -19,11 +19,11 @@
 						{
 							if($name == 'clientConnections')
 							{
-								$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.$top['client_nickname'].'[/url] ( '.$top[$name].' połączeń ) \n';
+								$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.str_replace(array('[',']'),'',$top['client_nickname']).'[/url] ( '.$top[$name].' połączeń ) \n';
 							}
 							else
 							{
-								$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.$top['client_nickname'].'[/url] ( '.$ft->secToHR($top[$name]).' ) \n';
+								$edit .= $i.'. [url=client://0/'.$top['client_unique_identifier'].']'.str_replace(array('[',']'),'',$top['client_nickname']).'[/url] ( '.$ft->secToHR($top[$name]).' ) \n';
 							}
 							$i++;
 						}

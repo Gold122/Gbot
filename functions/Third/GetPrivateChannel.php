@@ -46,7 +46,7 @@
 								$ts->channelCreate(array(
 									'cpid' => $free[0]['cid'],
 									'channel_name' => $i.'. Podkanał',
-									'channel_description' => self::replace($config['functions']['GetPrivateChannel']['channel_description'],$clientList['client_nickname']),
+									'channel_description' => self::replace($config['functions']['GetPrivateChannel']['channel_description'],str_replace(array('[',']'),'',$clientList['client_nickname'])),
 									'CHANNEL_FLAG_PERMANENT' => 1,
 								));
 

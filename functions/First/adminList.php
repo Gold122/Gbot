@@ -39,11 +39,11 @@
 								$clientInfo = $ts->getElement('data',$ts->clientInfo($status['clid']));
 								if($config['functions'][$function]['client_afk'] < $clientInfo['client_idle_time']/1000)
 								{
-									$edit .= '[*][url=client://0/'.$status['client_unique_identifier'].']'.$status['client_nickname'].'[/url] jest [COLOR=#bc7d00]AFK[/COLOR] na kanale [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['client_idle_time']/1000).' \n';
+									$edit .= '[*][url=client://0/'.$status['client_unique_identifier'].']'.str_replace(array('[',']'),'',$status['client_nickname']).'[/url] jest [COLOR=#bc7d00]AFK[/COLOR] na kanale [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['client_idle_time']/1000).' \n';
 								}
 								else
 								{
-									$edit .= '[*][url=client://0/'.$status['client_unique_identifier'].']'.$status['client_nickname'].'[/url] jest [COLOR=#009700]Online[/COLOR] na kanale [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000).' \n';
+									$edit .= '[*][url=client://0/'.$status['client_unique_identifier'].']'.str_replace(array('[',']'),'',$status['client_nickname']).'[/url] jest [COLOR=#009700]Online[/COLOR] na kanale [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000).' \n';
 								}
 							}
 							else

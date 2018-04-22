@@ -15,7 +15,7 @@
 				{
 					if(in_array($groups,explode(',',$admins['client_servergroups'])))
 					{
-						$edit .= '[*][url=client://0/'.$admins['client_unique_identifier'].']'.$admins['client_nickname'].'[/url]\n';
+						$edit .= '[*][url=client://0/'.$admins['client_unique_identifier'].']'.str_replace(array('[',']'),'',$admins['client_nickname']).'[/url]\n';
 						$i++;
 						$admin[] = $admins;
 					}

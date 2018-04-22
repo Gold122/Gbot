@@ -28,7 +28,7 @@
 			{
 				if(date('d-m-Y') == date('d-m-Y',$find['time']))
 				{
-					$edit .= '[*][url=client://0/'.$find['client_unique_identifier'].']'.$find['client_nickname'].'[/url]\n';
+					$edit .= '[*][url=client://0/'.$find['client_unique_identifier'].']'.str_replace(array('[',']'),'',$find['client_nickname']).'[/url]\n';
 					$last[] = $find['dbid'];
 				}
 			}
