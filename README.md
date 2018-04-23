@@ -2,7 +2,7 @@
 
 #### Wymagania:
 
-- PHP 5.6,7.0,7.1
+- PHP 5.6; 7.0; 7.1
 - MYSQL
 
 
