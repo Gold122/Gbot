@@ -5,17 +5,27 @@ if [[ $1 == 'stop' ]]; then
         screen -S gbot[1] -X quit
         screen -S gbot[2] -X quit
         screen -S gbot[3] -X quit
-		echo -e "[>>] GBot zostal wylaczony [<<]"
+		echo -e "[>>] GBot ( 0.2 ) zostal wylaczony [<<]"
 elif [[ $1 == 'start' ]]; then
 		echo -e '';
         screen -dmS gbot[1] php core.php -i 1
         screen -dmS gbot[2] php core.php -i 2
         screen -dmS gbot[3] php core.php -i 3
-		echo -e "[>>] GBot zostal uruchomiony [<<]"
+		echo -e "[>>] GBot ( 0.2 ) zostal uruchomiony [<<]"
+elif [[ $1 == 'restart' ]]; then
+		echo -e '';
+        screen -S gbot[1] -X quit
+        screen -S gbot[2] -X quit
+        screen -S gbot[3] -X quit
+        screen -dmS gbot[1] php core.php -i 1
+        screen -dmS gbot[2] php core.php -i 2
+        screen -dmS gbot[3] php core.php -i 3
+		echo -e "[>>] GBot ( 0.2 ) zostal zrestartowany [<<]"
 else
 	echo -e '';
-	echo -e "[>>] Uzycie: ./run.sh {start/stop} [<<]"
-	echo -e "[>>] start - uruchomienie bot od panelu [<<]"
-	echo -e "[>>] stop - wylaczenie bot od panelu [<<]"
+	echo -e "[>>] Uzycie: ./run.sh {start/stop/restart} [<<]"
+	echo -e "[>>] start - uruchomienie GBot [<<]"
+	echo -e "[>>] stop - wylaczenie GBot [<<]"
+	echo -e "[>>] restart - restart GBot [<<]"
 	echo -e '';
  fi
