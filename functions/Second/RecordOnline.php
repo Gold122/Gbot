@@ -6,13 +6,13 @@
 
 		function start($db,$ts,$config,$ft,$cache)
 		{
-			$record = $db->prepare("SELECT * FROM `record` LIMIT 1");
-			$record->execute();
+			$record = $db->prepare("SELECT * FROM `record` WHERE `uid` = :uid");
+			$record->execute(array(':uid' => $cache['serverInfo']['virtualserver_unique_identifier']));
 			$record = $record->fetch(PDO::FETCH_ASSOC);
-			if(!isset($record) || $cache['serverInfo']['virtualserver_clientsonline'] - $cache['serverInfo']['virtualserver_queryclientsonline'] > $record['online'])
+			if($cache['serverInfo']['virtualserver_clientsonline'] - $cache['serverInfo']['virtualserver_queryclientsonline'] > $record['online'])
 			{
-					$ts->channelEdit($config['functions']['RecordOnline']['channel_id'],array('channel_name' => self::replace($config['functions']['RecordOnline']['channel_name'],$cache['serverInfo']),'channel_description' => self::replace($config['functions']['RecordOnline']['channel_description'].$cache['footer'],$cache['serverInfo'])));
-					$db->prepare("UPDATE `record` SET online=:online,time = :time")->execute(array('online' => $cache['serverInfo']['virtualserver_clientsonline'] - $cache['serverInfo']['virtualserver_queryclientsonline'],'time' => time()));
+				$ts->channelEdit($config['functions']['RecordOnline']['channel_id'],array('channel_name' => self::replace($config['functions']['RecordOnline']['channel_name'],$cache['serverInfo']),'channel_description' => self::replace($config['functions']['RecordOnline']['channel_description'].$cache['footer'],$cache['serverInfo'])));
+				$db->prepare("INSERT INTO record(uid,online,time) VALUES (:uid,:online,:time) ON DUPLICATE KEY UPDATE online=:online,time = :time")->execute(array(':uid' => $cache['serverInfo']['virtualserver_unique_identifier'], ':online' => $cache['serverInfo']['virtualserver_clientsonline'] - $cache['serverInfo']['virtualserver_queryclientsonline'],':time' => time()));
 			}
 			unset($record);
 		}
