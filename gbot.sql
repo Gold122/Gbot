@@ -16,8 +16,10 @@ CREATE TABLE IF NOT EXISTS `newuserToday` (
 -- Data exporting was unselected.
 -- Zrzut struktury tabela ts_gbot.record
 CREATE TABLE IF NOT EXISTS `record` (
+  `uid` varchar(150) NOT NULL,
   `online` int(11) DEFAULT NULL,
-  `time` int(11) DEFAULT NULL
+  `time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `record` (`online`, `time`) VALUES ('0', '0');
