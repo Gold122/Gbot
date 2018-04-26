@@ -59,7 +59,7 @@
 					'threshold' => 200, // granica przy jakiej ma informować!
 					'groups' => array(11,12,13), // grupy do których ma wysyłać wiadmość
 					'message' => array(
-						'Drogi administratorze wykryłem wysoki Ping.',
+						'Drogi administratorze wykryłem wysoki ping.',
 						'Ping: [ping]',
 						'Ilość utraconych pakietów: [packet_lost]%',
 					),
@@ -68,7 +68,7 @@
 					'threshold' => 30*100, //granica przy jakie ma informować
 					'groups' => array(11,12,13), // grupy do których ma wysyłać wiadmość
 					'message' => array(
-						'Drogi administratorze wykryłem wysoke Pakiety.',
+						'Drogi administratorze wykryłem wysokie pakiety.',
 						'Ping: [ping]',
 						'Ilość utraconych pakietów: [packet_lost]%',
 					),
