@@ -69,6 +69,6 @@
 					}
 				}
 			}
-			unset($last,$time,$afk,$clientInfo,$clientList);
+			unset($last,$time,$afk,$clientInfo,$clientList,$db);
 		}
 	}

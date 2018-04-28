@@ -5,13 +5,13 @@ if [[ $1 == 'stop' ]]; then
         screen -S gbot[1] -X quit
         screen -S gbot[2] -X quit
         screen -S gbot[3] -X quit
-		echo -e "[>>] GBot ( 0.2 ) zostal wylaczony [<<]"
+		echo -e "[>>] GBot ( 2.0 ) zostal wylaczony [<<]"
 elif [[ $1 == 'start' ]]; then
 		echo -e '';
         screen -dmS gbot[1] php core.php -i 1
         screen -dmS gbot[2] php core.php -i 2
         screen -dmS gbot[3] php core.php -i 3
-		echo -e "[>>] GBot ( 0.2 ) zostal uruchomiony [<<]"
+		echo -e "[>>] GBot ( 2.0 ) zostal uruchomiony [<<]"
 elif [[ $1 == 'restart' ]]; then
 		echo -e '';
         screen -S gbot[1] -X quit
@@ -20,7 +20,7 @@ elif [[ $1 == 'restart' ]]; then
         screen -dmS gbot[1] php core.php -i 1
         screen -dmS gbot[2] php core.php -i 2
         screen -dmS gbot[3] php core.php -i 3
-		echo -e "[>>] GBot ( 0.2 ) zostal zrestartowany [<<]"
+		echo -e "[>>] GBot ( 2.0 ) zostal zrestartowany [<<]"
 else
 	echo -e '';
 	echo -e "[>>] Uzycie: ./run.sh {start/stop/restart} [<<]"

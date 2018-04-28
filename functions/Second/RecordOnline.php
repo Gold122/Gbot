@@ -14,7 +14,7 @@
 				$ts->channelEdit($config['functions']['RecordOnline']['channel_id'],array('channel_name' => self::replace($config['functions']['RecordOnline']['channel_name'],$cache['serverInfo']),'channel_description' => self::replace($config['functions']['RecordOnline']['channel_description'].$cache['footer'],$cache['serverInfo'])));
 				$db->prepare("INSERT INTO record(uid,online,time) VALUES (:uid,:online,:time) ON DUPLICATE KEY UPDATE online=:online,time = :time")->execute(array(':uid' => $cache['serverInfo']['virtualserver_unique_identifier'], ':online' => $cache['serverInfo']['virtualserver_clientsonline'] - $cache['serverInfo']['virtualserver_queryclientsonline'],':time' => time()));
 			}
-			unset($record);
+			unset($record,$db);
 		}
 
 		private function replace($msg,$serverInfo)

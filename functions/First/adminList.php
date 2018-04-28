@@ -39,17 +39,17 @@
 								$clientInfo = $ts->getElement('data',$ts->clientInfo($status['clid']));
 								if($config['functions'][$function]['client_afk'] < $clientInfo['client_idle_time']/1000)
 								{
-									$edit .= '[*][url=client://0/'.$status['client_unique_identifier'].']'.str_replace(array('[',']'),'',$status['client_nickname']).'[/url] jest [COLOR=#bc7d00]AFK[/COLOR] na kanale [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['client_idle_time']/1000).' \n';
+									$edit .= '[*][img]https://i.imgur.com/zLecPB2.png[/img] Administrator: [url=client://0/'.$status['client_unique_identifier'].']'.str_replace(array('[',']'),'',$status['client_nickname']).'[/url] \n      [img]https://i.imgur.com/Htmna5z.png[/img]  status: [b][COLOR=#bc7d00]AFK[/COLOR][/b] od '.$ft->secToHR($clientInfo['client_idle_time']/1000).' \n     [img]https://i.imgur.com/ONMDPX6.png[/img] rozmawia na kanale: [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url]  \n \n';
 								}
 								else
 								{
-									$edit .= '[*][url=client://0/'.$status['client_unique_identifier'].']'.str_replace(array('[',']'),'',$status['client_nickname']).'[/url] jest [COLOR=#009700]Online[/COLOR] na kanale [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000).' \n';
+									$edit .= '[*][img]https://i.imgur.com/zLecPB2.png[/img] Administrator: [url=client://0/'.$status['client_unique_identifier'].']'.str_replace(array('[',']'),'',$status['client_nickname']).'[/url] \n      [img]https://i.imgur.com/LnUIBq7.png[/img]  status: [b][COLOR=#009700]Online[/COLOR][/b] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000).' \n      [img]https://i.imgur.com/ONMDPX6.png[/img] rozmawia na kanale: [url=channelID://'.$status['cid'].']'.$ts->getElement('data',$ts->channelInfo($status['cid']))['channel_name'].'[/url] \n \n';
 								}
 							}
 							else
 							{
 								$clientInfo = $status = $ts->getElement('data',$ts->clientDbInfo($groups['cldbid']));
-								$edit .= '[*][url=client://0/'.$groups['client_unique_identifier'].']'.$groups['client_nickname'].'[/url] jest [COLOR=#ff0000]Offline[/COLOR] od '.$ft->secToHR(time()-$clientInfo['client_lastconnected']).' \n';
+								$edit .= '[*][img]https://i.imgur.com/zLecPB2.png[/img] Administrator: [url=client://0/'.$groups['client_unique_identifier'].']'.$groups['client_nickname'].'[/url] \n      [img]https://i.imgur.com/3HZawPb.png[/img]  status: [b][COLOR=#ff0000]Offline[/COLOR][/b] od '.$ft->secToHR(time()-$clientInfo['client_lastconnected']).' \n \n';
 							}
 
 						}

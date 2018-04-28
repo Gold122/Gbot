@@ -13,9 +13,10 @@
 				if($channelList['pid'] == $config['functions']['ChannelGuard']['channel_creator']['channel_Section'])
 				{
 					$i++;
+					$channelGroup = $ts->getElement('data',$ts->channelGroupClientList($channelList['cid']));
 					if(explode('.',$channelList['channel_name'])[0] != $i)
 					{
-						if(isset(explode('.',$channelList['channel_name'])[1]) && $ts->getElement('data',$ts->channelGroupClientList($channelList['cid'])) != false)
+						if(isset(explode('.',$channelList['channel_name'])[1]) && $channelGroup != false)
 						{
 							$name = explode('.',$channelList['channel_name'])[1];
 						}
@@ -25,11 +26,48 @@
 						}
 						$ts->channelEdit($channelList['cid'],array('channel_name' => $i.'.'.$name));
 					}
-					elseif(explode('.',$channelList['channel_name'])[0] == $i && isset(explode('.',$channelList['channel_name'])[1]) && $ts->getElement('data',$ts->channelGroupClientList($channelList['cid'])) == false)
+
+					if(explode('.',$channelList['channel_name'])[0] == $i && isset(explode('.',$channelList['channel_name'])[1]) && $channelGroup == false)
 					{
 						$free[] = $channelList;
 					}
+
+					if($channelGroup != false)
+					{
+						foreach($channelGroup as $channelGroup)
+						{
+							if($config['functions']['ChannelGuard']['channel_creator']['head_channel_admin_group'] == $channelGroup['cgid'])
+							{
+								foreach($cache['clientList'] as $clientList)
+								{
+									if($clientList['client_database_id'] == $channelGroup['cldbid'])
+									{
+										if($channelList['channel_topic'] != date('d-m-Y'))
+										{
+											$ts->channelEdit($channelList['cid'],array('channel_topic' => date('d-m-Y')));
+										}
+
+										$db->prepare("INSERT INTO channelPrivate(dbid,channels,time) VALUES (:dbid,:channels,:time) ON DUPLICATE KEY UPDATE time = :time")->execute(array(':dbid' => $channelGroup['cldbid'],':channels' => $channelGroup['cid'],':time' => time()));
+										break;
+									}
+								}
+								break;
+							}
+						}
+					}
+
 					$all[] = $channelList;
+				}
+			}
+
+			$check = $db->prepare("SELECT * FROM channelPrivate");
+			$check->execute();
+			foreach($check->fetchAll(PDO::FETCH_ASSOC) as $check)
+			{
+				if($check['time'] < time()-((($config['functions']['ChannelGuard']['channel_scanner']['delete_channel']*60)*60)*24))
+				{
+					$ts->channelDelete($check['channels']);
+					$db->prepare("DELETE FROM `channelPrivate` WHERE `dbid` = :dbid")->execute(array(':dbid' => $check['dbid']));
 				}
 			}
 			
@@ -52,7 +90,7 @@
 
 				}
 			}
-			unset($channelList,$name,$free,$all,$i,$last);
+			unset($channelList,$name,$free,$all,$i,$last,$check,$clientList);
 		}
 
 		private function replace($msg,$limit)

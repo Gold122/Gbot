@@ -11,7 +11,7 @@
 				{
 					if($channelList['pid'] == $id)
 					{
-						$all[$id][] = $channelList;
+						@$all[$id][] = $channelList;
 						if($channelList["total_clients"] == 0)
 						{
 							$free[$id][] = $channelList;

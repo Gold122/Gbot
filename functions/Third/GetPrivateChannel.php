@@ -9,66 +9,76 @@
 			$free = array();
 			foreach($cache['clientList'] as $clientList)
 			{
-				if($clientList['cid'] == $config['functions']['GetPrivateChannel']['getChannel_id'] && !array_intersect($config['functions']['GetPrivateChannel']['need_ranks'],explode(',',$clientList['client_servergroups'])))
+				if($clientList['cid'] == $config['functions']['GetPrivateChannel']['getChannel_id'])
 				{
-					foreach($cache['channelList'] as $channelList)
+					if(array_intersect($config['functions']['GetPrivateChannel']['need_ranks'],explode(',',$clientList['client_servergroups'])))
 					{
-						if($channelList['pid'] == $config['functions']['ChannelGuard']['channel_creator']['channel_Section'])
+						foreach($cache['channelList'] as $channelList)
 						{
-							$group = $ts->getElement('data',$ts->channelGroupClientList($channelList['cid']));
-							if($group != false)
+							if($channelList['pid'] == $config['functions']['ChannelGuard']['channel_creator']['channel_Section'])
 							{
-								foreach($group as $groups)
+								$group = $ts->getElement('data',$ts->channelGroupClientList($channelList['cid']));
+								if($group != false)
 								{
-									if($groups['cldbid'] == $clientList['client_database_id'])
+									foreach($group as $groups)
 									{
-										$actual = array('id' => $channelList['cid'],'group' => $group,'channel_name' => $channelList['channel_name']);
-										break;
+										if($groups['cldbid'] == $clientList['client_database_id'])
+										{
+											$actual = array('id' => $channelList['cid'],'group' => $group,'channel_name' => $channelList['channel_name']);
+											break;
+										}
 									}
 								}
-							}
-							if(isset(explode('.',$channelList['channel_name'])[1]) && $group == false)
-							{
-								$free[] = $channelList;
+								if(isset(explode('.',$channelList['channel_name'])[1]) && $group == false)
+								{
+									$free[] = $channelList;
+								}
 							}
 						}
-					}
-					
-					if($free != NULL)
-					{
-						if(!isset($actual))
+						
+						if($free != NULL)
 						{
-							$ts->channelGroupAddClient($config['functions']['ChannelGuard']['channel_creator']['head_channel_admin_group'],$free[0]['cid'],$clientList['client_database_id']);
-							$ts->clientMove($clientList['clid'],$free[0]['cid']);
-							$ts->channelEdit($free[0]['cid'],array('channel_name' => explode('.',$free[0]['channel_name'])[0].'.Kanał '.$clientList['client_nickname']));
-							for($i=1; $i < $config['functions']['ChannelGuard']['channel_creator']['sub_channels']+1; $i++)
+							if(!isset($actual))
 							{
-								$ts->channelCreate(array(
-									'cpid' => $free[0]['cid'],
-									'channel_name' => $i.'. Podkanał',
-									'channel_description' => self::replace($config['functions']['GetPrivateChannel']['channel_description'],str_replace(array('[',']'),'',$clientList['client_nickname'])),
-									'CHANNEL_FLAG_PERMANENT' => 1,
-								));
+								$db->prepare("INSERT INTO channelPrivate(dbid,channels,time) VALUES (:dbid,:channels,:time)")->execute(array(':dbid' => $clientList['client_database_id'],':channels' => $free[0]['cid'],':time' => time()));
+								$ts->channelGroupAddClient($config['functions']['ChannelGuard']['channel_creator']['head_channel_admin_group'],$free[0]['cid'],$clientList['client_database_id']);
+								$ts->clientMove($clientList['clid'],$free[0]['cid']);
+								$ts->channelEdit($free[0]['cid'],array('channel_name' => explode('.',$free[0]['channel_name'])[0].'.Kanał '.$clientList['client_nickname'],'channel_description' => self::replace($config['functions']['GetPrivateChannel']['channel_description'],$clientList),'channel_topic' => date('d-m-Y')));
+								for($i=1; $i < $config['functions']['ChannelGuard']['channel_creator']['sub_channels']+1; $i++)
+								{
+									$ts->channelCreate(array(
+										'cpid' => $free[0]['cid'],
+										'channel_name' => $i.'. Podkanał',
+										'CHANNEL_FLAG_PERMANENT' => 1,
+									));
 
+								}
+							}
+							else
+							{
+								$ts->sendMessage(1,$clientList['clid'],'Posiadasz już kanał!');
+								$ts->clientMove($clientList['clid'],$actual['id']);
 							}
 						}
-						else
-						{
-							$ts->sendMessage(1,$clientList['clid'],'Posiadasz już kanał!');
-							$ts->clientMove($clientList['clid'],$actual['id']);
-						}
+						unset($actual);
 					}
-					unset($actual);
+					else
+					{
+						$ts->sendMessage(1,$clientList['clid'],'Nie posiadasz wymaganej rangi');
+						$ts->clientKick($clientList['clid'],'channel');
+					}
 					break;
 				}
 			}
 			unset($clientList,$channelList,$group,$groups,$free,$i);
 		}
 
-		private function replace($msg,$limit)
+		private function replace($msg,$clientList)
 		{
 			$replace = array(
-				1 => array(1 => '[nick]', 2 => $limit),
+				1 => array(1 => '[owner_url]', 2 => '[URL=client://0/'.$clientList['client_unique_identifier'].']'.str_replace(array('[',']'),'',$clientList['client_nickname']).'[/URL]'),
+				2 => array(1 => '[date]', 2 => date('d-m-Y H:i')),
+				3 => array(1 => '[owner]', 2 => str_replace(array('[',']'),'',$clientList['client_nickname'])),
 			);	
 			foreach($replace as $stats)
 			{
