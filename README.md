@@ -8,6 +8,6 @@
 
 #### Instalacja:
 
-Poradnik: https://tsforum.pl/darmowy-bot-teamspeak-gbot-3063/
+Poradnik: https://tsforum.pl/temat/3063-darmowy-bot-teamspeak-gbot/
 
 Oficjalny ts3: Goldproject.eu
