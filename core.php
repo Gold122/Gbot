@@ -12,7 +12,7 @@
 	require_once("lib/function.php");
 	date_default_timezone_set('Europe/Warsaw');
 	define('OWNER', 'Gold122');
-	define('VERSION', '0.1');
+	define('VERSION', '0.2');
 	define('PREFIX', '	:> ');
 	define('END', "\n");
 
