@@ -7,13 +7,13 @@
 		{
 			$i = 0;
 			$free = array();
-			foreach($cache['clientList'] as $clientList)
+			foreach($ts->getElement('data',$ts->clientList('-groups -uid')) as $clientList)
 			{
 				if($clientList['cid'] == $config['functions']['GetPrivateChannel']['getChannel_id'])
 				{
 					if(array_intersect($config['functions']['GetPrivateChannel']['need_ranks'],explode(',',$clientList['client_servergroups'])))
 					{
-						foreach($cache['channelList'] as $channelList)
+						foreach($ts->getElement('data',$ts->channelList()) as $channelList)
 						{
 							if($channelList['pid'] == $config['functions']['ChannelGuard']['channel_creator']['channel_Section'])
 							{

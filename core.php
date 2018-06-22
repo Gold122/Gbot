@@ -12,7 +12,7 @@
 	require_once("lib/function.php");
 	date_default_timezone_set('Europe/Warsaw');
 	define('OWNER', 'Gold122');
-	define('VERSION', '0.2');
+	define('VERSION', '2.5');
 	define('PREFIX', '	:> ');
 	define('END', "\n");
 
@@ -23,12 +23,16 @@
 		echo PREFIX.' GBOT '.VERSION.END;
 		echo PREFIX.' Stworzony przez '.OWNER.END.END;
 		$ft = new gbot;
+
 		foreach ($config[$instance['i']]['functions'] as $filename => $file_name)
 		{
 			if($file_name['enabled'] == true)
 			{
 				include_once 'functions/'.$config[$instance['i']]['connection']['name'].'/'.$filename.'.php';
-				echo PREFIX.'Poprawnie załadowano '.$filename.END;
+				if($config[$instance['i']]['connection']['debug_mode'])
+				{
+					echo PREFIX.'Poprawnie załadowano '.$filename.END;
+				}
 			}
 		}
 
@@ -36,13 +40,13 @@
 
 			$ts = new ts3admin($config[$instance['i']]['connection']['server_ip'], $config[$instance['i']]['connection']['query_port']);
 			if($ts->getElement('success', $ts->connect())){
-				$ts->login($config[$instance['i']]['connection']['query_login'], $config[$instance['i']]['connection']['query_password']);
-				$ts->selectServer($config[$instance['i']]['connection']['voice_port']);
+				$ft->show_errors($ts->login($config[$instance['i']]['connection']['query_login'], $config[$instance['i']]['connection']['query_password']));
+				$ft->show_errors($ts->selectServer($config[$instance['i']]['connection']['voice_port']));
 				echo PREFIX.'SUCCESS: Poprawnie połączono z serwerem'.END;
-				$ts->setName($config[$instance['i']]['connection']['bot_name']);
+				$ft->show_errors($ts->setName($config[$instance['i']]['connection']['bot_name']));
 				echo PREFIX.'SUCCESS: Poprawnie ustawiono nazwe na '.$config[$instance['i']]['connection']['bot_name'].END;
 				$whoam = $ts->getElement('data',$ts->whoAmI());
-				$ts->clientMove($whoam['client_id'],$config[$instance['i']]['connection']['join_to_channel']);
+				$ft->show_errors($ts->clientMove($whoam['client_id'],$config[$instance['i']]['connection']['join_to_channel']));
 				echo PREFIX.'SUCCESS: Poprawnie wszedlem na kanal o id '.$config[$instance['i']]['connection']['join_to_channel'].END;
 				$cache = array();
 				$cache['footer'] = '[hr][right][img]https://goldproject.eu/img/logo/logocolor.png[/img]';
@@ -70,26 +74,6 @@
 						{
 							if($ft->can_do($functions,$ft->convertinterval($config_value['interval']),$cache))
 							{
-								foreach($config_value['require'] as $require)
-								{
-									if($require == 'clientList')
-									{
-										$cache['clientList'] = $ts->getElement('data',$ts->clientList('-uid -groups -times -info -voice -country'));
-									}
-									elseif($require == 'channelList')
-									{
-										$cache['channelList'] = $ts->getElement('data',$ts->channelList('-topic -limits -seconds_empty'));
-									}
-									elseif($require == 'serverInfo')
-									{
-										$cache['serverInfo'] = $ts->getElement('data',$ts->serverInfo());
-									}
-									elseif($require == 'serverGroupList')
-									{
-										$cache['serverGroupList'] = $ts->getElement('data',$ts->serverGroupList());
-									}
-								}
-
 								if(in_array('mysql',$config_value['require']))
 								{
 									try{

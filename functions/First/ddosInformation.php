@@ -8,9 +8,9 @@
 		{
 			foreach($config['functions'][$function]['functions'] as $name => $functions)
 			{
-				if($cache['serverInfo'][$name] > $functions['threshold'])
+				if($ts->getElement('data',$ts->serverInfo())[$name] > $functions['threshold'])
 				{
-					foreach($cache['clientList'] as $admins)
+					foreach($ts->getElement('data',$ts->clientList('-groups')) as $admins)
 					{
 						foreach($functions['groups'] as $groups)
 						{

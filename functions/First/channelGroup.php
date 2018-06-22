@@ -13,7 +13,7 @@
 			}
 			foreach($config['functions']['channelGroup']['channels'] as $id => $rank)
 			{
-				foreach($cache['clientList'] as $clientList)
+				foreach($ts->getElement('data',$ts->clientList('-groups')) as $clientList)
 				{
 					if($id == $clientList['cid'])
 					{

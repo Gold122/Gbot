@@ -8,7 +8,7 @@
 		{
 			$clients = array();
 			$all = array();
-			foreach($cache['clientList'] as $clientList)
+			foreach($ts->getElement('data',$ts->clientList('-uid -times')) as $clientList)
 			{
 				if($clientList['client_type'] == 0)
 				{

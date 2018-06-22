@@ -3,38 +3,45 @@
 
 	class PublicMonitor
 	{
-		function start($db,$ts,$config,$ft,$cache)
+		function start($db,$ts,$config,$ft,$cache,$functions,$instance)
 		{
 			foreach($config['functions']['PublicMonitor']['channels'] as $id => $channels)
 			{
-				foreach($cache['channelList'] as $channelList)
+				foreach($ts->getElement('data',$ts->channelList()) as $channelList)
 				{
 					if($channelList['pid'] == $id)
 					{
-						@$all[$id][] = $channelList;
+						$all[$id][] = &$channelList;
 						if($channelList["total_clients"] == 0)
 						{
-							$free[$id][] = $channelList;
+							$free[$id][] = &$channelList;
 						}
 					}
 				}
-				if(isset($free[$id]) && count($free[$id]) > 1)
+				if(isset($free[$id]) && count($free[$id]) > $channels['free_channels'])
 				{
-					for($i = count($free[$id])-1; $i>=1; $i--)
+					for($i = count($free[$id])-1; $i>=$channels['free_channels']; $i--)
 					{
 						$ts->channelDelete($free[$id][$i]['cid'],0);
 					}
 				}
 
-				if(!isset($free[$id]))
+				if(!isset($free[$id]) || count($free[$id]) < $channels['free_channels'])
 				{
-					if(!isset($all[$id]))
+					$numer=0;
+					$numer = @count($all[$id])-1;
+					for($i = @count($free[$id]); $i<$channels['free_channels']; $i++)
 					{
-						$all = 0;
+						$numer++;
+						if($channels['channel_maxclients'] == -1)
+						{
+							$ts->channelCreate(array('cpid' => $id,'channel_name' => self::replace($channels['channel_name'],$numer),'CHANNEL_FLAG_PERMANENT' => 1));
+						}
+						else
+						{
+							$ts->channelCreate(array('cpid' => $id,'channel_name' => self::replace($channels['channel_name'],$numer),'CHANNEL_FLAG_PERMANENT' => 1,'channel_maxclients' => $channels['channel_maxclients'],'channel_maxfamilyclients' => $channels['channel_maxclients'],'channel_flag_maxclients_unlimited' => 0,'channel_flag_maxfamilyclients_unlimited' => 0));
+						}
 					}
-					$channels['channel_name'] = self::replace($channels['channel_name'],count($all[$id]));
-					$channels['cpid'] = $id;
-					$ts->channelCreate($channels);
 				}
 
 				$i=0;
@@ -47,7 +54,12 @@
 					}
 				}
 			}
-			unset($id,$channels,$channelList,$all,$free,$i);
+			$channels = NULL;
+			$channelList = NULL;
+			$all = NULL;
+			$free = NULL;
+			$numer = NULL;
+			$i= NULL;
 		}
 
 		private function replace($msg,$limit)

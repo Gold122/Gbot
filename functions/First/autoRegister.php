@@ -8,7 +8,7 @@
 		{
 			foreach($config['functions']['autoRegister']['ranks'] as $id => $rank)
 			{
-				foreach($cache['clientList'] as $clientList)
+				foreach($ts->getElement('data',$ts->clientList('-groups -times')) as $clientList)
 				{
 					if($clientList['client_type'] == 0)
 					{
@@ -17,7 +17,7 @@
 							$clientInfo = $ts->getElement('data',$ts->clientInfo($clientList['clid']));
 							if(time() - $clientInfo['client_created'] > $rank['timeSpent'] && $clientInfo['client_totalconnections'] > $rank['connections'])
 							{
-								foreach($cache['serverGroupList'] as $serverGroupList)
+								foreach($ts->getElement('data',$ts->serverGroupList()) as $serverGroupList)
 								{
 									if($serverGroupList['sgid'] == $id)
 									{

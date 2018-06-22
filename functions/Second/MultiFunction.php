@@ -10,7 +10,7 @@
 			{
 				if($functions['enabled'] == true)
 				{
-					$ts->channelEdit($id,array('channel_name' => self::replace($functions['channel_name'],$cache['serverInfo'])));
+					$ts->channelEdit($id,array('channel_name' => self::replace($functions['channel_name'],$ts->getElement('data',$ts->serverInfo()))));
 				}
 			}
 			unset($id,$functions);

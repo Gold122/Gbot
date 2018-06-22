@@ -30,13 +30,18 @@
 							{
 								$max++;
 								$client = NULL;
-								foreach($cache['clientList'] as $clientList)
+								foreach($ts->getElement('data',$ts->clientList('-uid')) as $clientList)
 								{
 									if($GroupClient["cldbid"] == $clientList['client_database_id'])
 									{
 										$clientInfo = $ts->getElement('data',$ts->clientInfo($clientList['clid']));
 										$i++;
-										$client = '[*][img]https://i.imgur.com/DshoYEe.png[/img]    [b][URL=client://0/'.$clientList['client_unique_identifier'].']'.$clientList['client_nickname'].'[/URL] jest aktualnie [color=green][b]ONLINE[/b][/color] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000);
+										$time = $ft->secToHR($clientInfo['connection_connected_time']/1000);
+										if($time == NULL)
+										{
+											$time = '0 minut';
+										}
+										$client = '[*][img]https://i.imgur.com/DshoYEe.png[/img]    [b][URL=client://0/'.$clientList['client_unique_identifier'].']'.str_replace(array('[',']'),'',$clientList['client_nickname']).'[/URL] jest aktualnie [color=green][b]ONLINE[/b][/color] od '.$time;
 										unset($clientInfo);
 										break;
 									}
@@ -44,7 +49,12 @@
 								if($client == NULL)
 								{
 									$clientDbInfo = $ts->getElement('data',$ts->clientDbInfo($GroupClient["cldbid"]));
-									$edit .= '[*][img]https://i.imgur.com/DshoYEe.png[/img]    [b][URL=client://0/'.$clientDbInfo['client_unique_identifier'].']'.$clientDbInfo['client_nickname'].'[/URL] jest aktualnie [color=red][b]OFFLINE[/b][/color]  od '.$ft->secToHR(time()-$clientDbInfo['client_lastconnected']);
+										$time = $ft->secToHR(time()-$clientDbInfo['client_lastconnected']);
+										if($time == NULL)
+										{
+											$time = '0 minut';
+										}
+									$edit .= '[*][img]https://i.imgur.com/DshoYEe.png[/img]    [b][URL=client://0/'.$clientDbInfo['client_unique_identifier'].']'.str_replace(array('[',']'),'',$clientDbInfo['client_nickname']).'[/URL] jest aktualnie [color=red][b]OFFLINE[/b][/color]  od '.$time;
 									unset($clientDbInfot);
 								}
 								else
@@ -55,7 +65,8 @@
 						}
 						$edits = self::replace($config['functions']['guildOnline']['channel_description'],$group,$i,$max);
 						$edits .= $edit;
-						$ts->channelEdit($guilds['channel_id'],array('channel_name' => self::replace($guilds['channel_name'],$group,$i,$max),'channel_description' => self::replace($edits,$group,$i,$max)));
+						$ts->channelEdit($guilds['channel_id'],array('channel_name' => self::replace($guilds['channel_name'],$group,$i,$max)));
+						$ts->channelEdit($guilds['channel_id'],array('channel_description' => self::replace($edits,$group,$i,$max)));
 					}
 					else
 					{

@@ -9,7 +9,7 @@
 			foreach($config['functions']['help_center']['channels'] as $id => $groups)
 			{
 				$admin = array();
-				foreach($cache['clientList'] as $admins)
+				foreach($ts->getElement('data',$ts->clientList('-groups -uid')) as $admins)
 				{
 					if(array_intersect($groups,explode(',',$admins['client_servergroups'])))
 					{
@@ -17,7 +17,7 @@
 					}
 				}
 
-				foreach($cache['clientList'] as $clientList)
+				foreach($ts->getElement('data',$ts->clientList('-groups -uid')) as $clientList)
 				{
 					if($id == $clientList['cid'])
 					{

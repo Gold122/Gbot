@@ -4,42 +4,43 @@
 	
 	$config[1]['connection'] =  array(
 		
-		'server_ip' => '',  // IP serwera ts3
+		'server_ip' => 'localhost',  // IP serwera ts3
 		
-		'voice_port' => 9987, // Port Teamspeak - domyślny 9987
+		'voice_port' => 9987,
 		
-		'query_port' => 10011, // Port Query - domyślny 10011
+		'query_port' => 10011,
 		
-		'query_login' => 'serveradmin', // Login Query - domyślny serveradmin
+		'query_login' => 'serveradmin',
 		
-		'query_password' => '', // Hasło do Query
+		'query_password' => 'password',
 		
 		'bot_name' => '[ GBot ] Pracownik', // Nazwa z która ma wejść bot
 		
-		'join_to_channel' => 110, // Kanał na którym ma siedzieć bot
+		'join_to_channel' => 10, // Kanał na którym ma siedzieć bot
 
-		'name' => 'First', // (proszę nie zmieniać)
-		
+		'name' => 'First',
+
+		'debug_mode' => false,
 	);
 	
 	
 	$config[1]['save_log'] = array(
 	
-		'enabled' => true, // włączone - true / wyłączone - false (funkcja logów)
+		'enabled' => true,
 		
 	);
 
 	$config['mysql'] = array(
-		'host' => 'localhost', // IP do mysql
-		'login' => 'root', // login do mysql
-		'password' => '', // hasło do mysql
-		'database' => '',  // nazwa tabeli
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => 'test',
+		'database' => 'gbot_free',
 	);
 
 	$config[1]['functions'] = array(
 
 
-		/* Wysyłanie wiadomości do użytkownika przy wejściu nna serwer */
+		/* Wysyłanie wiadomości dla użytkownika przy wejściu  */
 		'connectMessage' => array(
 			'enabled' => true, // włączone - true / wyłączone - false
 			'message' => array(
@@ -51,7 +52,7 @@
 			'require' => array('clientList','serverInfo'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 1),
 		),
-		/* Wysyłanie wiadomości do użytkownika z informacją o ataku na serwer  */
+
 		'ddosInformation' => array(
 			'enabled' => false, // włączone - true / wyłączone - false
 			'functions' => array(
@@ -84,7 +85,7 @@
 			'admin_groups' => array(11,12,13), // akceptowane rangi
 			'channel_name' => '» Dostępne osoby z zepsołu [online] osoba/y', // nazwa kanału
 			'channel_description' => '[center][size=15] [B]Administratorów Online[/B][/size][/center][list]',
-			'channel_id' => 88, // id kanału
+			'channel_id' => 88, // id kanały
 			'require' => array('clientList'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 5,'seconds' => 0), // Optymalny czas: 5min
 		), 
@@ -113,16 +114,12 @@
 		
 		/* Funkcja służaca do wypisywania statusy administratora na kanale  */
 		'adminStatusOnChannel' => array(
-			'enabled' => true,   // włączone - true / wyłączone - false
-			'admin_groups' => array(11,12,13), // akceptowane rangi
+			'enabled' => true,  
+			'admin_groups' => array(9), // akceptowane rangi
 			'channels' => array(
-				/* dbid użytkownika */ 3 => array( 
-					'channel_id' => 70, // id kanału
-					'show' => '» Status: [status]', // nazwa kanału [status]
-				),
-				70 => array( 
-					'channel_id' => 262, // id kanału
-					'show' => '» Status: [status]', // nazwa kanału [status]
+				/* dbid użytkownika */ 2 => array( 
+					'channel_id' => 12, // id kanału
+					'show' => '» Status: [status]',
 				),
 			),
 			'require' => array('clientList'),
@@ -132,10 +129,11 @@
 
 		/* Funkcja służaca do wypisywania na kanale osób z innego kraju niż PL  */
 		'otherCountry' => array(
-			'enabled' => true, // włączone - true / wyłączone - false
-			'channel_id' => 290, // id kanału
-			'channel_name' => '◦ Osób z innych krajów: [number]', // nazwa kannału [number]
-			'channel_description' => '[center][size=15] [B]Osoby z innych krajów[/B][/size][/center][list]', // opis kanału
+			'enabled' => true,
+			'channel_id' => 290,
+			'channel_name' => '◦ Osób z innych krajów: [number]',
+			'channel_description' => '[center][size=15] [B]Osoby z innych krajów[/B][/size][/center][list]',
+			'ignored_ranks' => array(),
 			'require' => array(),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 1,'seconds' => 0) // Optymalny czas: 1min
 		),
@@ -155,7 +153,7 @@
 		'autoRegister' => array(
 			'enabled' => true, // włączone - true / wyłączone - false
 			'ranks' => array(
-				44 => array('timeSpent' => 3600,'connections' => 5,'ignored_ranks' => array(20,21)),	/* id rangi / id rangi  */
+				11 => array('timeSpent' => 3600,'connections' => 5,'ignored_ranks' => array(9)),	/* id rangi / id rangi  */
 			),
 			'require' => array('clientList','serverGroupList'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 10) // Optymalny czas: 10sek
@@ -185,27 +183,29 @@
 	
 	$config[2]['connection'] =  array(
 		
-		'server_ip' => '',  // IP serwera ts3
+		'server_ip' => 'localhost',  // IP serwera ts3
 		
-		'voice_port' => 9987, // Port Teamspeak - domyślny 9987
+		'voice_port' => 9987,
 		
-		'query_port' => 10011, // Port Query - domyślny 10011 
+		'query_port' => 10011,
 		
-		'query_login' => 'serveradmin', // Login Query - domyślny serveradmin
+		'query_login' => 'serveradmin',
 		
-		'query_password' => '', // Hasło do Query
+		'query_password' => 'password',
 		
 		'bot_name' => '[ GBot ] Manager', // Nazwa z która ma wejść bot
 		
-		'join_to_channel' => 110, // Kanał na którym ma siedzieć bot
+		'join_to_channel' => 10, // Kanał na którym ma siedzieć bot
 
-		'name' => 'Second', // (proszę nie zmieniać)
+		'name' => 'Second',
+
+		'debug_mode' => false,
 		
 	);
 	
 	$config[2]['save_log'] = array(
 	
-		'enabled' => true, // włączone - true / wyłączone - false (funkcja logów)
+		'enabled' => true,
 		
 	);
 	
@@ -220,15 +220,15 @@
 					'name' => 'GoldProject.EU |  [online]/[maxslots] | [percent]%', // nazwa serwera
 				),
 				'virtualserver_welcomemessage' => array(
-					'enabled' => false, // włączone - true / wyłączone - false
+					'enabled' => false,
 					'name' => '',
 				),
 				'virtualserver_hostmessage' => array(
-					'enabled' => false, // włączone - true / wyłączone - false
+					'enabled' => false,
 					'name' => '',
 				),
 				'virtualserver_hostbanner_gfx_url' => array(
-					'enabled' => false, // włączone - true / wyłączone - false
+					'enabled' => false,
 					'name' => '',
 				),
 			),
@@ -261,11 +261,11 @@
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 5,'seconds' => 0) // Optymalny czas: 5min
 		),
 
-		/* Funkcja służaca do wypisywania największej ilośći użytkowników na serwerze */
+		/* Funkcja służaca do wypisywania największej ilośći użytkowników na kanale */
 		'RecordOnline' => array(
 			'enabled' => true, // włączone - true / wyłączone - false
-			'channel_name' => '◦ Rekord Online na serwerze: [record] ', // nazwa kanału
-			'channel_description' => '[center][size=15] [B]Rekord Użytkowników Online[/B][/size][/center] \n[size=8] [B]Największa ilość osób na serwerze:[/B] [color=green][record][/color] \n[B]Rekord został ustanowiony:[/B] [color=#a26c00][date][/color][/size] \n',
+			'channel_name' => '◦ Rekord: [record] osób', // nazwa kanału
+			'channel_description' => '[center][size=15] [B]Rekord[/B][/size][/center] \n[size=10] [B]Osób:[/B] [color=green][record][/color] \n [B]Data:[/B] [color=#a26c00][date][/color][/size] \n',
 			'channel_id' => 114, // id kanału
 			'require' => array('serverInfo','mysql'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 10) // Optymalny czas: 10sek
@@ -299,7 +299,7 @@
 			'require' => array('clientList','serverGroupList','mysql'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 10) // Optymalny czas: 10sek
 		),
-		/* Funkcja służąca do generowania TOPEK */
+
 		'TopGenerator' => array(
 			'enabled' => true,
 			'functions' => array(
@@ -331,7 +331,7 @@
 			'require' => array('mysql'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 5,'seconds' => 0) // Optymalny czas: 1-5 min
 		),
-		/* Funkcja służąca do zapisywania danych z TOPEK */
+
 		'TopStatistic' => array(
 			'enabled' => true, // włączone - true / wyłączone - false 
 			'timeAFK' => 120, // czas AFK
@@ -339,61 +339,32 @@
 			'require' => array('clientList','mysql'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 1,'seconds' => 0) // Musi być 1 min!
 		),
-		/* Funkcja służąca do tworzenia nowych kanałów publicznych */
+
 		'PublicMonitor' => array(
 			'enabled' => true,
 			'channels' => array(
-				104 => array(
+				14 => array(
 					'channel_name' => '◦ Kanał - Bez Limitu #[number]',
 					'channel_description' => 'Tutaj opis kanału',
-					'CHANNEL_FLAG_PERMANENT' => 1,
+					'free_channels' => 2,
+					'channel_maxclients' => -1,
 				),
-				105 => array(
+				15 => array(
 					'channel_name' => '◦ Kanał - MAX2 #[number]',
 					'channel_description' => 'Tutaj opis kanału',
-					'CHANNEL_FLAG_PERMANENT' => 1,
 					'channel_maxclients' => 2,
-					'channel_maxfamilyclients' => 2,
-					'channel_flag_maxclients_unlimited' => 0,
-					'channel_flag_maxfamilyclients_unlimited' => 0,
-				),
-				106 => array(
-					'channel_name' => '◦ Kanał - MAX3 #[number]',
-					'channel_description' => 'Tutaj opis kanału',
-					'CHANNEL_FLAG_PERMANENT' => 1,
-					'channel_maxclients' => 3,
-					'channel_maxfamilyclients' => 3,
-					'channel_flag_maxclients_unlimited' => 0,
-					'channel_flag_maxfamilyclients_unlimited' => 0,
-				),
-				107 => array(
-					'channel_name' => '◦ Kanał - MAX4 #[number]',
-					'channel_description' => 'Tutaj opis kanału',
-					'CHANNEL_FLAG_PERMANENT' => 1,
-					'channel_maxclients' => 4,
-					'channel_maxfamilyclients' => 4,
-					'channel_flag_maxclients_unlimited' => 0,
-					'channel_flag_maxfamilyclients_unlimited' => 0,
-				),
-				108 => array(
-					'channel_name' => '◦ Kanał - MAX5 #[number]',
-					'channel_description' => 'Tutaj opis kanału',
-					'CHANNEL_FLAG_PERMANENT' => 1,
-					'channel_maxclients' => 5,
-					'channel_maxfamilyclients' => 5,
-					'channel_flag_maxclients_unlimited' => 0,
-					'channel_flag_maxfamilyclients_unlimited' => 0,
+					'free_channels' => 2,
 				),
 			),
 			'require' => array('channelList'),
-			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 1) // Optymalny czas: 10sek
+			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 10) // Optymalny czas: 10sek
 		),
 
-		/* Osoby online z grupy premium */
+		/* Osoby online na kanale */
 		'guildOnline' => array(
 			'enabled' => true, // włączone - true / wyłączone - false
 			'guilds' => array(
-				0 => array('channel_id' => 59,'channel_name' => '[rspacer]» Online z [name]: [online]/[max]','group_id' => 82),
+				0 => array('channel_id' => 25,'channel_name' => '[rspacer]» Online z [name]: [online]/[max]','group_id' => 12),
 			),
 			'channel_description' => '[center][size=15] [B]Gildia [name] ([online]/[max]) [/B][/size][/center][list]',
 			'require' => array('clientList'),
@@ -404,7 +375,7 @@
 		'guildsRank' => array(
 			'enabled' => true, // włączone - true / wyłączone - false
 			'guilds' => array(
-				0 => array('channel_id' => 61,'group_id' => 82),
+				0 => array('channel_id' => 24,'group_id' => 12),
 			),
 			'default_channel_group' => 8, // jaką ma nadwać rangę kanałową po zabraniu rangi
 			'require' => array('clientList'),
@@ -424,21 +395,21 @@
 	
 	$config[3]['connection'] =  array(
 		
-		'server_ip' => '',  // IP serwera ts3
+		'server_ip' => 'localhost',  // IP serwera ts3
 		
-		'voice_port' => 9987, // Port Teamspeak - domyślny 9987
+		'voice_port' => 9987,
 		
-		'query_port' => 10011, // Port Query - domyślny 10011
+		'query_port' => 10011,
 		
-		'query_login' => 'serveradmin', // Login Query - domyślny serveradmin
+		'query_login' => 'serveradmin',
 		
-		'query_password' => '', // Hasło do Query
+		'query_password' => 'password',
 		
 		'bot_name' => '[ GBot ] ChannelManager', // Nazwa z która ma wejść bot
 		
-		'join_to_channel' => 110, // Kanał na którym ma siedzieć bot
+		'join_to_channel' => 10, // Kanał na którym ma siedzieć bot
 
-		'name' => 'Third', // (proszę nie zmieniać)
+		'name' => 'Third',
 		
 	);
 	
@@ -456,7 +427,7 @@
 			'enabled' => true,
 			
 			'channel_creator' => array(
-				'channel_Section' => 150, // sekcja kanałów prywatnych 
+				'channel_Section' => 150,
 
 				'free_channel_name' => 'Kanał Wolny',
 				'free_channel_description' => 'Opis kanału',
@@ -478,9 +449,9 @@
 		),
 		/* tworzenie kanału prywatnego po wejściu na odpowiedni kanał */
 		'GetPrivateChannel' => array(
-			'enabled' => true, // włączone - true / wyłączone - false
+			'enabled' => true,
 			'need_ranks' => array(), // wymagana ranga aby móc stworzyć kanał prywatny
-			'channel_description' => '[center][size=15] [B]Kanał [owner_url] [/B][/size][/center] \n[B]Właściciel: [/B] [owner_url] \n [b]Stworzony: [/b] [date] [hr][right][img]https://goldproject.eu/img/logo/logocolor.png[/img]',
+			'channel_description' => '[center][size=15] [B]Kanał [owner_url] [/B][/size][/center] \n[B]Właściciel: [/B] [owner_url] \n [b]Stworzony: [/b] [date]',
 			'getChannel_id' => 95, // id kanału od nadawania kanału prywatnego
 			'require' => array('channelList','clientList','mysql'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 0,'seconds' => 3) // Optymalny czas: 30min
@@ -488,15 +459,15 @@
 
 		/* Zbieranie statystyk */
 		'bannerGenerator' => array(
-			'enabled' => true, // włączone - true / wyłączone - false
-			'img_for_create' => 'banner/img/banner.png', // ścieżka do obrazka
-			'save_banner' => '/var/www/html/test.png', // miejsce zapisów banneru
-			'font_banner' => 'banner/font/Karma-Bold.ttf', // scieżka do czcionki
-			'admin_groups' => array(11,12,13), // id rang administratorów 
+			'enabled' => true,
+			'img_for_create' => 'banner/img/banner.png',
+			'save_banner' => 'test.png',
+			'font_banner' => 'banner/font/Karma-Bold.ttf',
+			'admin_groups' => array(11,12,13),
 			'banner' => array(
-				'time' => array(30,380,310), //size x y
-				'online' => array(30,822,310), //size x y
-				'admins' => array(30,590,310), //size x y
+				'time' => array(15,380,310), //size x y
+				'online' => array(15,822,310), //size x y
+				'admins' => array(15,590,310), //size x y
 			),
 			'require' => array('serverInfo','clientList'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 1,'seconds' => 0) // Optymalny czas: 1 min
@@ -504,7 +475,7 @@
 
 		/* Zbieranie statystyk */
 		'get_static' => array(
-			'enabled' => true, // włączone - true / wyłączone - false
+			'enabled' => true,
 			'require' => array('serverInfo','mysql'),
 			'interval' => array('days' => 0,'hours' => 0,'minutes' => 1,'seconds' => 0) // Optymalny czas: 10sek
 		),

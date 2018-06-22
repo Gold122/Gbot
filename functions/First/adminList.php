@@ -9,7 +9,7 @@
 			$edit = $config['functions']['adminList']['channel_description'];
 			foreach($config['functions']['adminList']['admin_groups'] as $admins)
 			{
-				foreach($cache['serverGroupList'] as $serverGroupList)
+				foreach($ts->getElement('data',$ts->serverGroupList()) as $serverGroupList)
 				{
 					if($serverGroupList['sgid'] == $admins)
 					{
@@ -25,7 +25,7 @@
 						if(!isset($groups[""]))
 						{
 							$status = NULL;
-							foreach($cache['clientList'] as $clientList)
+							foreach($ts->getElement('data',$ts->clientList('-times -uid')) as $clientList)
 							{
 								if($clientList['client_database_id'] == $groups['cldbid'])
 								{

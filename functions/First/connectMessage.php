@@ -8,7 +8,7 @@
 		{
 			$clients = array();
 
-			foreach($cache['clientList'] as $clientList) 
+			foreach($ts->getElement('data',$ts->clientList('-country')) as $clientList) 
 			{
 				if($clientList['client_type'] == 0)
 				{

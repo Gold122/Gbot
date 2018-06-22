@@ -5,7 +5,7 @@
 	{
 		function start($db,$ts,$config,$ft,$cache)
 		{
-			foreach($cache['clientList'] as $clientList)
+			foreach($ts->getElement('data',$ts->clientList('-groups -uid')) as $clientList)
 			{
 				if($clientList['client_type'] != 1)
 				{

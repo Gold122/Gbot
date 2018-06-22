@@ -10,7 +10,7 @@
 			$actual = array();
 			foreach($config['functions']['Levels']['ranks'] as $id => $rank)
 			{
-				foreach($cache['clientList'] as $clientList)
+				foreach($ts->getElement('data',$ts->clientList('-groups')) as $clientList)
 				{
 					if($clientList['client_type'] == 0)
 					{

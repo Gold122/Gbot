@@ -10,13 +10,23 @@
 			$i = 0;
 			foreach($config['functions']['adminsOnline']['admin_groups'] as $groups)
 			{
-				foreach($cache['clientList'] as $admins)
+				foreach($ts->getElement('data',$ts->clientList('-groups -uid')) as $admins)
 				{
 					if(in_array($groups,explode(',',$admins['client_servergroups'])))
 					{
-						$clientInfo = $ts->getElement('data',$ts->clientInfo($admins['clid']));
-						$edit .= '[*][url=client://0/'.$admins['client_unique_identifier'].']'.str_replace(array('[',']'),'',$admins['client_nickname']).'[/url] jest na kanale [url=channelID://'.$admins['cid'].']'.$ts->getElement('data',$ts->channelInfo($admins['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000).' \n';
-						$i++;
+						foreach($ts->getElement('data',$ts->serverGroupList()) as $serverGroupList)
+						{
+							if($serverGroupList['sgid'] == $groups)
+							{
+								$serverGroup = $serverGroupList;
+							}
+						}
+						if(isset($serverGroup))
+						{
+							$clientInfo = $ts->getElement('data',$ts->clientInfo($admins['clid']));
+							$edit .= ' [*] [ [COLOR=#00557f]'.$serverGroup['name'].'[/color] ] [url=client://0/'.$admins['client_unique_identifier'].']'.str_replace(array('[',']'),'',$admins['client_nickname']).'[/url] jest na kanale [url=channelID://'.$admins['cid'].']'.$ts->getElement('data',$ts->channelInfo($admins['cid']))['channel_name'].'[/url] od '.$ft->secToHR($clientInfo['connection_connected_time']/1000).' \n';
+							$i++;
+						}
 					}
 				}
 			}

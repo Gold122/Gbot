@@ -8,7 +8,7 @@
 			$i = 0;
 			$free = array();
 			$all = array();
-			foreach($cache['channelList'] as $channelList)
+			foreach($ts->getElement('data',$ts->channelList('-topic')) as $channelList)
 			{
 				if($channelList['pid'] == $config['functions']['ChannelGuard']['channel_creator']['channel_Section'])
 				{
@@ -19,6 +19,10 @@
 						if(isset(explode('.',$channelList['channel_name'])[1]) && $channelGroup != false)
 						{
 							$name = explode('.',$channelList['channel_name'])[1];
+						}
+						elseif($channelGroup != false)
+						{
+							$name = 'Zmień nazwe';
 						}
 						else
 						{
@@ -38,7 +42,7 @@
 						{
 							if($config['functions']['ChannelGuard']['channel_creator']['head_channel_admin_group'] == $channelGroup['cgid'])
 							{
-								foreach($cache['clientList'] as $clientList)
+								foreach($ts->getElement('data',$ts->clientList()) as $clientList)
 								{
 									if($clientList['client_database_id'] == $channelGroup['cldbid'])
 									{

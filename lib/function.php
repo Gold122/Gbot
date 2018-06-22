@@ -21,6 +21,15 @@
 				return true;
 			}
 		}
+
+		function show_errors($check)
+		{
+			if(!$check["success"])
+			{
+				echo '	:> ERROR: '.end($check['errors']).PHP_EOL;
+				die;
+			}
+		}
 		
 		function convertinterval($interval)
 		{

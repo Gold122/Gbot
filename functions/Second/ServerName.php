@@ -11,7 +11,7 @@
 			{
 				if($list['enabled'] == true)
 				{
-					$edit[$name] = self::replace($list['name'],$cache['serverInfo']);
+					$edit[$name] = self::replace($list['name'],$ts->getElement('data',$ts->serverInfo()));
 				}
 			}
 			if($edit != NULL)

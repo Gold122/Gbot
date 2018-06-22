@@ -6,12 +6,6 @@
 
 		function start($db,$ts,$config,$ft,$cache)
 		{
-			$info = array();
-			foreach($cache['clientList'] as $clientList)
-			{
-				$info[] = $clientList;
-			}
-
 			foreach($config['functions']['adminStatusOnChannel']['channels'] as $dbid => $channel)
 			{
 				foreach($config['functions']['adminStatusOnChannel']['admin_groups'] as $admins)
@@ -21,7 +15,7 @@
 						if($admins == $groups['sgid'])
 						{
 							$status = 'Offline';
-							foreach($cache['clientList'] as $clientList)
+							foreach($ts->getElement('data',$ts->clientList('-uid')) as $clientList)
 							{
 								if($clientList['client_database_id'] == $dbid)
 								{
