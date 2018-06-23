@@ -21,7 +21,7 @@
 				$info = $ts->getElement('data',$ts->clientInfo($clients));
 				foreach($config['functions']['connectMessage']['message'] as $message)
 				{
-					$ts->sendMessage(1,$clients,self::replace($message,$info,$cache['serverInfo']));
+					$ts->sendMessage(1,$clients,self::replace($message,$info,$ts->getElement('data',$ts->serverInfo())));
 				}
 			}
 
