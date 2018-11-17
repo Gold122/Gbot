@@ -27,7 +27,7 @@
 							{
 								foreach($admin as $admins)
 								{
-									$ts->clientPoke($admins['clid'],'Użytkownik [b] [URL=client://0/'.$clientList['client_unique_identifier'].']'.$clientList['client_nickname'].'[/URL][/b] czeka na Centrum Pomocy!');
+									$ts->clientPoke($admins['clid'],'[URL=client://0/'.$clientList['client_unique_identifier'].']'.$clientList['client_nickname'].'[/URL]');
 								}
 								$ts->sendMessage(1,$clientList['clid'],'Administracja została powiadomiona!');
 								$ts->sendMessage(1,$clientList['clid'],'Dostępni administratorzy:');
